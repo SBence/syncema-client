@@ -1,19 +1,19 @@
 import { Grid } from "@mantine/core";
+import ChatBox from "./main/ChatBox.js";
 
-export default function MainContent() {
+export default function MainContent({ socket, userID, roomID, connected }) {
   return (
     <Grid>
-      <Grid.Col md={6} lg={3}>
-        1
+      <Grid.Col md={6} lg={9}>
+        Video
       </Grid.Col>
       <Grid.Col md={6} lg={3}>
-        2
-      </Grid.Col>
-      <Grid.Col md={6} lg={3}>
-        3
-      </Grid.Col>
-      <Grid.Col md={6} lg={3}>
-        4
+        <ChatBox
+          socket={socket}
+          userID={userID}
+          roomID={roomID}
+          connected={connected}
+        />
       </Grid.Col>
     </Grid>
   );

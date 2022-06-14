@@ -1,5 +1,5 @@
 import { MantineProvider } from "@mantine/core";
-import MainShell from "./components/SyncemaShell.js";
+import SyncemaShell from "./components/SyncemaShell.js";
 
 export default function App() {
   return (
@@ -8,7 +8,7 @@ export default function App() {
       withGlobalStyles
       withNormalizeCSS
     >
-      <MainShell />
+      <SyncemaShell />
     </MantineProvider>
   );
 }

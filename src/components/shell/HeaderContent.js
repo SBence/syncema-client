@@ -5,6 +5,7 @@ import {
   Drawer,
   Group,
   MediaQuery,
+  Popover,
   Text,
   Title,
 } from "@mantine/core";
@@ -16,9 +17,12 @@ import RoomSidebar from "./RoomSidebar.js";
 export default function HeaderContent({
   listOpened,
   setListOpened,
-  roomID = "UNKNOWN",
+  roomID,
+  connected,
 }) {
   const [roomInfoOpened, setRoomInfoOpened] = useState(false);
+  const [opened, setOpened] = useState(false);
+
   return (
     <>
       <Group position="apart">
@@ -38,19 +42,43 @@ export default function HeaderContent({
             </Text>
             ema
           </Title>
-          <ConnectionBadge />
+          <ConnectionBadge roomID={roomID} connected={connected} />
         </Group>
 
         <Group>
           <MediaQuery smallerThan="sm" styles={{ display: "none" }}>
-            <Button
-              color="gray"
-              variant="default"
-              rightIcon={<Copy />}
-              onClick={() => navigator.clipboard.writeText(roomID)}
+            <Popover
+              opened={opened}
+              onClose={() => setOpened(false)}
+              target={
+                <Button
+                  color="gray"
+                  variant="default"
+                  rightIcon={<Copy />}
+                  disabled={!roomID}
+                  onClick={() => {
+                    navigator.clipboard.writeText(window.location.href);
+                    setOpened(true);
+                  }}
+                >
+                  <div
+                    dangerouslySetInnerHTML={{
+                      __html: `Room ID: <code>${
+                        roomID ? roomID : "----"
+                      }</code>`,
+                    }}
+                  />
+                </Button>
+              }
+              position="bottom"
+              withArrow
+              trapFocus={false}
+              transition="slide-down"
             >
-              Room ID: {roomID}
-            </Button>
+              <div style={{ display: "flex" }}>
+                <Text size="sm">Copied to clipboard</Text>
+              </div>
+            </Popover>
           </MediaQuery>
           <ActionIcon
             variant="default"

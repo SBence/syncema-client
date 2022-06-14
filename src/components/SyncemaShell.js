@@ -1,18 +1,50 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   AppShell,
   Navbar,
   Header,
   Footer,
-  Text,
   useMantineTheme,
 } from "@mantine/core";
+import { io } from "socket.io-client";
 import MainContent from "./shell/MainContent.js";
 import HeaderContent from "./shell/HeaderContent.js";
+import * as URLParamUtils from "../utils/URLParamUtils.js";
+import QueueContent from "./shell/QueueContent.js";
+
+const socket = io("http://localhost:3031");
 
 export default function SyncemaShell() {
   const theme = useMantineTheme();
   const [listOpened, setListOpened] = useState(false);
+  const [roomID, setRoomID] = useState();
+  const [userID, setUserID] = useState();
+  const [connected, setConnected] = useState(false);
+
+  useEffect(() => {
+    socket.on("connect", () => {
+      setConnected(socket.connected);
+    });
+
+    socket.on("disconnect", () => {
+      setConnected(socket.connected);
+    });
+  }, []);
+
+  useEffect(() => {
+    socket.on("joinedRoom", ({ roomID, userID }) => {
+      setRoomID(roomID);
+      URLParamUtils.set("room", roomID);
+      setUserID(userID);
+      localStorage.setItem("userID", userID);
+    });
+    socket.emit("joinRoom", {
+      roomID: URLParamUtils.get("room"),
+      userID: localStorage.getItem("userID"),
+      username: "Guest",
+    });
+  }, []);
+
   return (
     <AppShell
       styles={{
@@ -31,9 +63,14 @@ export default function SyncemaShell() {
           p="md"
           hiddenBreakpoint="sm"
           hidden={!listOpened}
-          width={{ sm: 200, lg: 300 }}
+          width={{ sm: 200, lg: 350 }}
         >
-          <Text>Application navbar</Text>
+          <QueueContent
+            socket={socket}
+            userID={userID}
+            roomID={roomID}
+            connected={connected}
+          />
         </Navbar>
       }
       footer={
@@ -46,11 +83,18 @@ export default function SyncemaShell() {
           <HeaderContent
             listOpened={listOpened}
             setListOpened={setListOpened}
+            roomID={roomID}
+            connected={connected}
           />
         </Header>
       }
     >
-      <MainContent />
+      <MainContent
+        socket={socket}
+        userID={userID}
+        roomID={roomID}
+        connected={connected}
+      />
     </AppShell>
   );
 }
