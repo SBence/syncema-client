@@ -2,15 +2,15 @@ import {
   ActionIcon,
   Burger,
   Button,
+  CopyButton,
   Drawer,
   Group,
   MediaQuery,
-  Popover,
   Text,
   Title,
 } from "@mantine/core";
 import { useState } from "react";
-import { Copy, LayoutSidebarRightExpand } from "tabler-icons-react";
+import { Check, Copy, LayoutSidebarRightExpand } from "tabler-icons-react";
 import ConnectionBadge from "./header/ConnectionBadge.js";
 import RoomSidebar from "./RoomSidebar.js";
 
@@ -21,7 +21,6 @@ export default function HeaderContent({
   connected,
 }) {
   const [roomInfoOpened, setRoomInfoOpened] = useState(false);
-  const [opened, setOpened] = useState(false);
 
   return (
     <>
@@ -47,19 +46,14 @@ export default function HeaderContent({
 
         <Group>
           <MediaQuery smallerThan="sm" styles={{ display: "none" }}>
-            <Popover
-              opened={opened}
-              onClose={() => setOpened(false)}
-              target={
+            <CopyButton value={window.location.href} timeout={3000}>
+              {({ copied, copy }) => (
                 <Button
-                  color="gray"
-                  variant="default"
-                  rightIcon={<Copy />}
+                  color={copied ? "green" : "gray"}
+                  variant={copied ? "light" : "default"}
+                  rightIcon={copied ? <Check /> : <Copy />}
                   disabled={!roomID}
-                  onClick={() => {
-                    navigator.clipboard.writeText(window.location.href);
-                    setOpened(true);
-                  }}
+                  onClick={copy}
                 >
                   <div
                     dangerouslySetInnerHTML={{
@@ -69,16 +63,8 @@ export default function HeaderContent({
                     }}
                   />
                 </Button>
-              }
-              position="bottom"
-              withArrow
-              trapFocus={false}
-              transition="slide-down"
-            >
-              <div style={{ display: "flex" }}>
-                <Text size="sm">Copied to clipboard</Text>
-              </div>
-            </Popover>
+              )}
+            </CopyButton>
           </MediaQuery>
           <ActionIcon
             variant="default"
