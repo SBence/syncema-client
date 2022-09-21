@@ -20,6 +20,7 @@ export default function SyncemaShell() {
   const [roomID, setRoomID] = useState();
   const [userID, setUserID] = useState();
   const [connected, setConnected] = useState(false);
+  const [queue, setQueue] = useState([]);
 
   useEffect(() => {
     socket.on("connect", () => {
@@ -42,6 +43,12 @@ export default function SyncemaShell() {
       roomID: URLParamUtils.get("room"),
       userID: localStorage.getItem("userID"),
       username: "Guest",
+    });
+  }, []);
+
+  useEffect(() => {
+    socket.on("queueUpdate", (newQueue) => {
+      setQueue(newQueue);
     });
   }, []);
 
@@ -70,6 +77,7 @@ export default function SyncemaShell() {
             userID={userID}
             roomID={roomID}
             connected={connected}
+            queue={queue}
           />
         </Navbar>
       }
@@ -94,6 +102,7 @@ export default function SyncemaShell() {
         userID={userID}
         roomID={roomID}
         connected={connected}
+        currentVideoURL={queue[0]?.url}
       />
     </AppShell>
   );

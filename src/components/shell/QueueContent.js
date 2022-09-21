@@ -1,17 +1,16 @@
 import { ActionIcon, Stack, TextInput, Title } from "@mantine/core";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { PlaylistAdd } from "tabler-icons-react";
 import VideoCard from "./queue/VideoCard.js";
 
-export default function QueueContent({ socket, userID, roomID, connected }) {
+export default function QueueContent({
+  socket,
+  userID,
+  roomID,
+  connected,
+  queue,
+}) {
   const [draft, setDraft] = useState("");
-  const [queue, setQueue] = useState([]);
-
-  useEffect(() => {
-    socket.on("queueUpdate", (newQueue) => {
-      setQueue(newQueue);
-    });
-  }, []);
 
   const queueElements = [];
   for (const video of queue) {
