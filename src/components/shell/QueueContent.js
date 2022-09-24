@@ -1,4 +1,4 @@
-import { ActionIcon, Stack, TextInput, Title } from "@mantine/core";
+import { ActionIcon, Space, Stack, TextInput, Title } from "@mantine/core";
 import { useState } from "react";
 import { PlaylistAdd } from "tabler-icons-react";
 import VideoCard from "./queue/VideoCard.js";
@@ -20,7 +20,16 @@ export default function QueueContent({
   return (
     <>
       <Title order={3}>Queue</Title>
-      <Stack>{queueElements}</Stack>
+      <Space h="xs" />
+      <Stack
+        style={{
+          flexGrow: 1,
+          overflow: "auto",
+        }}
+      >
+        {queueElements}
+      </Stack>
+      <Space h="md" />
       <TextInput
         value={draft}
         type="text"
