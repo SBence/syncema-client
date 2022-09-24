@@ -1,4 +1,4 @@
-import { ActionIcon, Stack, Text, TextInput } from "@mantine/core";
+import { ActionIcon, Space, Stack, TextInput, Title } from "@mantine/core";
 import { useEffect, useState } from "react";
 import { Send } from "tabler-icons-react";
 import MessageCard from "./chat/MessageCard.js";
@@ -21,10 +21,11 @@ export default function ChatBox({ socket, userID, roomID, connected }) {
   return (
     <>
       {roomID && connected ? (
-        "Chat"
+        <Title order={3}>Chat</Title>
       ) : (
-        <Text color="red">Chat (disconnected)</Text>
+        <Title color="red">Chat (disconnected)</Title>
       )}
+      <Space h="xs" />
       <Stack>{messageElements}</Stack>
       <TextInput
         value={draft}
