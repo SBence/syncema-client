@@ -2,13 +2,14 @@ import {
   Badge,
   Button,
   Grid,
+  Group,
   HoverCard,
   Image,
   Paper,
   Text,
   Title,
 } from "@mantine/core";
-import { PlaylistX } from "tabler-icons-react";
+import { ChevronDown, ChevronUp, PlaylistX } from "tabler-icons-react";
 
 export default function VideoCard({ video }) {
   return (
@@ -66,9 +67,13 @@ export default function VideoCard({ video }) {
         </Paper>
       </HoverCard.Target>
       <HoverCard.Dropdown>
-        <Button color="red" leftIcon={<PlaylistX />}>
-          Remove
-        </Button>
+        <Group>
+          <Button leftIcon={<ChevronDown />}>Move up</Button>
+          <Button color="red" leftIcon={<PlaylistX />}>
+            Remove
+          </Button>
+          <Button leftIcon={<ChevronUp />}>Move down</Button>
+        </Group>
       </HoverCard.Dropdown>
     </HoverCard>
   );
