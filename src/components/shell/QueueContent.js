@@ -12,9 +12,19 @@ export default function QueueContent({
 }) {
   const [draft, setDraft] = useState("");
 
+  let videoIndex = 0;
   const queueElements = [];
   for (const video of queue) {
-    queueElements.push(<VideoCard video={video} />);
+    queueElements.push(
+      <VideoCard
+        key={videoIndex}
+        video={video}
+        videoIndex={videoIndex}
+        socket={socket}
+        userID={userID}
+      />
+    );
+    videoIndex += 1;
   }
 
   return (
