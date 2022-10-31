@@ -11,7 +11,13 @@ import {
 } from "@mantine/core";
 import { ChevronDown, ChevronUp, PlaylistX } from "tabler-icons-react";
 
-export default function VideoCard({ video, videoIndex, socket, userID }) {
+export default function VideoCard({
+  video,
+  videoIndex,
+  queueLength,
+  socket,
+  userID,
+}) {
   return (
     <HoverCard shadow="md">
       <HoverCard.Target>
@@ -68,7 +74,19 @@ export default function VideoCard({ video, videoIndex, socket, userID }) {
       </HoverCard.Target>
       <HoverCard.Dropdown>
         <Group>
-          <Button leftIcon={<ChevronDown />}>Move up</Button>
+          <Button
+            leftIcon={<ChevronUp />}
+            onClick={() => {
+              socket.emit("moveVideo", {
+                userID: userID,
+                videoIndex: videoIndex,
+                direction: "up",
+              });
+            }}
+            disabled={videoIndex === 0}
+          >
+            Move up
+          </Button>
           <Button
             color="red"
             leftIcon={<PlaylistX />}
@@ -81,7 +99,19 @@ export default function VideoCard({ video, videoIndex, socket, userID }) {
           >
             Remove
           </Button>
-          <Button leftIcon={<ChevronUp />}>Move down</Button>
+          <Button
+            leftIcon={<ChevronDown />}
+            onClick={() => {
+              socket.emit("moveVideo", {
+                userID: userID,
+                videoIndex: videoIndex,
+                direction: "down",
+              });
+            }}
+            disabled={videoIndex === queueLength - 1}
+          >
+            Move down
+          </Button>
         </Group>
       </HoverCard.Dropdown>
     </HoverCard>

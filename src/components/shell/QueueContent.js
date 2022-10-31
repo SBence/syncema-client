@@ -20,6 +20,7 @@ export default function QueueContent({
         key={videoIndex}
         video={video}
         videoIndex={videoIndex}
+        queueLength={queue.length}
         socket={socket}
         userID={userID}
       />
