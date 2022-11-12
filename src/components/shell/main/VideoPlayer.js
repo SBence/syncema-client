@@ -1,7 +1,7 @@
 import { Box, Center, Overlay, Title } from "@mantine/core";
-import Plyr from "plyr-react";
 import "plyr-react/plyr.css";
 import { useEffect } from "react";
+import MyPlyr from "./player/MyPlyr.js";
 
 export default function VideoPlayer({ videoID, options }) {
   useEffect(() => {
@@ -29,7 +29,7 @@ export default function VideoPlayer({ videoID, options }) {
           </Overlay>
         )}
         <div>
-          <Plyr source={source} options={options} />
+          <MyPlyr source={source} options={options} />
         </div>
       </Box>
     </>
