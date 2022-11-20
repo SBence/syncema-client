@@ -12,7 +12,11 @@ export default function MainContent({
   return (
     <Grid>
       <Grid.Col md={6} lg={9}>
-        <VideoPlayer videoID={currentVideoURL} />
+        <VideoPlayer
+          socket={socket}
+          userID={userID}
+          videoURL={currentVideoURL}
+        />
       </Grid.Col>
       <Grid.Col md={6} lg={3}>
         <ChatBox
