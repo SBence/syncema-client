@@ -11,6 +11,7 @@ import MainContent from "./shell/MainContent.js";
 import HeaderContent from "./shell/HeaderContent.js";
 import * as URLParamUtils from "../utils/URLParamUtils.js";
 import QueueContent from "./shell/QueueContent.js";
+import { showNotification } from "@mantine/notifications";
 
 const socket = io("http://localhost:3031");
 
@@ -29,6 +30,12 @@ export default function SyncemaShell() {
 
     socket.on("disconnect", () => {
       setConnected(socket.connected);
+    });
+
+    socket.on("memberJoined", (username) => {
+      showNotification({
+        message: `Member joined: ${username}`,
+      });
     });
   }, []);
 

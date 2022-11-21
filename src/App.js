@@ -1,4 +1,5 @@
 import { MantineProvider } from "@mantine/core";
+import { NotificationsProvider } from "@mantine/notifications";
 import SyncemaShell from "./components/SyncemaShell.js";
 
 export default function App() {
@@ -8,7 +9,9 @@ export default function App() {
       withGlobalStyles
       withNormalizeCSS
     >
-      <SyncemaShell />
+      <NotificationsProvider>
+        <SyncemaShell />
+      </NotificationsProvider>
     </MantineProvider>
   );
 }
