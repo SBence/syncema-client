@@ -37,6 +37,10 @@ export default function SyncemaShell() {
         message: `Member joined: ${username}`,
       });
     });
+
+    socket.on("kick", () => {
+      window.location.replace(window.location.origin);
+    });
   }, []);
 
   useEffect(() => {
