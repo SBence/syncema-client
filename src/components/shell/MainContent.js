@@ -8,6 +8,7 @@ export default function MainContent({
   roomID,
   connected,
   currentVideoURL,
+  listOpened,
 }) {
   return (
     <Grid>
@@ -16,6 +17,7 @@ export default function MainContent({
           socket={socket}
           userID={userID}
           videoURL={currentVideoURL}
+          listOpened={listOpened}
         />
       </Grid.Col>
       <Grid.Col md={6} lg={3}>

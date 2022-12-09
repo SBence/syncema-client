@@ -2,7 +2,7 @@ import { Box, Center, Overlay, Title } from "@mantine/core";
 import { useEffect, useRef, useState } from "react";
 import ReactPlayer from "react-player/youtube";
 
-export default function VideoPlayer({ socket, userID, videoURL }) {
+export default function VideoPlayer({ socket, userID, videoURL, listOpened }) {
   const playerRef = useRef();
   const [videoPlaying, setVideoPlaying] = useState(false); // TODO: Get current playing state from server.
 
@@ -19,7 +19,7 @@ export default function VideoPlayer({ socket, userID, videoURL }) {
   return (
     <>
       <Box sx={{ position: "relative" }}>
-        {!videoURL && (
+        {!videoURL && !listOpened && (
           <Overlay opacity={1} color="#000">
             <Center style={{ width: "100%", height: "100%" }}>
               <Title>Empty queue</Title>

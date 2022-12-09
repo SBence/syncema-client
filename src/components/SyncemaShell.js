@@ -110,6 +110,7 @@ export default function SyncemaShell() {
         roomID={roomID}
         connected={connected}
         currentVideoURL={queue[0]?.url}
+        listOpened={listOpened}
       />
     </AppShell>
   );
