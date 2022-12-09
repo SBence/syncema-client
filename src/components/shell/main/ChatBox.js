@@ -19,14 +19,21 @@ export default function ChatBox({ socket, userID, roomID, connected }) {
   }
 
   return (
-    <>
+    <Stack>
       {roomID && connected ? (
         <Title order={3}>Chat</Title>
       ) : (
         <Title color="red">Chat (disconnected)</Title>
       )}
       <Space h="xs" />
-      <Stack>{messageElements}</Stack>
+      <Stack
+        style={{
+          flexGrow: 1,
+          overflow: "auto",
+        }}
+      >
+        {messageElements}
+      </Stack>
       <TextInput
         value={draft}
         type="text"
@@ -47,6 +54,6 @@ export default function ChatBox({ socket, userID, roomID, connected }) {
           </ActionIcon>
         }
       />
-    </>
+    </Stack>
   );
 }

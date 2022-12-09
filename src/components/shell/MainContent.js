@@ -11,7 +11,7 @@ export default function MainContent({
   listOpened,
 }) {
   return (
-    <Grid>
+    <Grid style={{ height: "100%" }}>
       <Grid.Col md={6} lg={9}>
         <VideoPlayer
           socket={socket}
@@ -20,7 +20,7 @@ export default function MainContent({
           listOpened={listOpened}
         />
       </Grid.Col>
-      <Grid.Col md={6} lg={3}>
+      <Grid.Col md={6} lg={3} style={{ display: "flex" }}>
         <ChatBox
           socket={socket}
           userID={userID}
