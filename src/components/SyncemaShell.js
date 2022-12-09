@@ -38,6 +38,13 @@ export default function SyncemaShell() {
       });
     });
 
+    socket.on("memberLeft", () => {
+      showNotification({
+        color: "red",
+        message: `Member left`, // TODO: Show username
+      });
+    });
+
     socket.on("kick", () => {
       window.location.replace(window.location.origin);
     });
