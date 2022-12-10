@@ -1,8 +1,12 @@
-import { Button, Group, Stack, Title } from "@mantine/core";
+import { ActionIcon, Button, Group, Stack, Title } from "@mantine/core";
+import { useState } from "react";
+import { X } from "tabler-icons-react";
 import * as URLParamUtils from "../../utils/URLParamUtils.js";
 
 export default function RoomSidebar() {
-  const recentRooms = JSON.parse(localStorage.getItem("recentRooms")) ?? [];
+  const [recentRooms, setRecentRooms] = useState(
+    JSON.parse(localStorage.getItem("recentRooms")) ?? []
+  );
 
   let roomButtons = [];
   for (const roomID of recentRooms) {
@@ -23,7 +27,19 @@ export default function RoomSidebar() {
 
   return (
     <Stack>
-      <Title order={3}>Recent rooms</Title>
+      <Group position="apart">
+        <Title order={3}>Recent rooms</Title>
+        <ActionIcon
+          color="red"
+          variant="filled"
+          onClick={() => {
+            setRecentRooms([]);
+            localStorage.setItem("recentRooms", "[]");
+          }}
+        >
+          <X size={18} />
+        </ActionIcon>
+      </Group>
       <Group>{roomButtons}</Group>
     </Stack>
   );
