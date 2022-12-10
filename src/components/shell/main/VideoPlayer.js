@@ -1,10 +1,11 @@
-import { Box, Center, Overlay, Title } from "@mantine/core";
+import { Box, Center, Overlay, Slider, Title } from "@mantine/core";
 import { useEffect, useRef, useState } from "react";
 import ReactPlayer from "react-player/youtube";
 
 export default function VideoPlayer({ socket, userID, videoURL, listOpened }) {
   const playerRef = useRef();
   const [videoPlaying, setVideoPlaying] = useState(false); // TODO: Get current playing state from server.
+  const [progressBar, setProgressBar] = useState(0);
 
   useEffect(() => {
     socket.on("videoPlay", () => setVideoPlaying(true));
@@ -30,18 +31,33 @@ export default function VideoPlayer({ socket, userID, videoURL, listOpened }) {
           ref={playerRef}
           url={videoURL}
           playing={videoPlaying}
-          controls={true}
           muted={true}
           onPlay={() => {
             playerEventEmitter("playVideo");
           }}
           onPause={() => playerEventEmitter("pauseVideo")}
-          onSeek={() =>
+          /* onSeek={() =>
             playerEventEmitter("seekTo", {
               time: playerRef.current.getCurrentTime(),
             })
-          }
+          } */
+          onProgress={({ playedSeconds }) => setProgressBar(playedSeconds)}
         />
+        {playerRef?.current && (
+          <Slider
+            min={0}
+            max={playerRef.current.getDuration()}
+            styles={{ markLabel: { display: "none" } }}
+            value={progressBar}
+            onChange={setProgressBar}
+            onChangeEnd={(value) => {
+              playerRef.current.seekTo(value);
+              playerEventEmitter("seekTo", {
+                time: value,
+              });
+            }}
+          />
+        )}
       </Box>
     </>
   );
