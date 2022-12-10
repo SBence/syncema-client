@@ -48,15 +48,29 @@ export default function SyncemaShell() {
     socket.on("kick", () => {
       window.location.replace(window.location.origin);
     });
-  }, []);
 
-  useEffect(() => {
     socket.on("joinedRoom", ({ roomID, userID }) => {
       setRoomID(roomID);
       URLParamUtils.set("room", roomID);
       setUserID(userID);
       localStorage.setItem("userID", userID);
+
+      let recentRooms = JSON.parse(localStorage.getItem("recentRooms"));
+      if (roomID.length > 4) {
+        if (recentRooms) {
+          if (!recentRooms.includes(roomID)) {
+            if (recentRooms.length >= 5) recentRooms.pop();
+          } else {
+            recentRooms.splice(recentRooms.indexOf(roomID), 1);
+          }
+          recentRooms.unshift(roomID);
+        } else {
+          recentRooms = [roomID];
+        }
+        localStorage.setItem("recentRooms", JSON.stringify(recentRooms));
+      }
     });
+
     socket.emit("joinRoom", {
       roomID: URLParamUtils.get("room"),
       userID: localStorage.getItem("userID"),
