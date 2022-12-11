@@ -1,9 +1,17 @@
-import { ActionIcon, Button, Group, Stack, Title } from "@mantine/core";
+import {
+  ActionIcon,
+  Button,
+  Group,
+  Stack,
+  TextInput,
+  Title,
+} from "@mantine/core";
 import { useState } from "react";
-import { X } from "tabler-icons-react";
+import { Check, X } from "tabler-icons-react";
 import * as URLParamUtils from "../../utils/URLParamUtils.js";
 
-export default function RoomSidebar() {
+export default function RoomSidebar({ username, socket }) {
+  const [usernameDraft, setUsernameDraft] = useState("");
   const [recentRooms, setRecentRooms] = useState(
     JSON.parse(localStorage.getItem("recentRooms")) ?? []
   );
@@ -27,6 +35,31 @@ export default function RoomSidebar() {
 
   return (
     <Stack>
+      <Group>
+        <TextInput
+          label="Username"
+          value={usernameDraft}
+          onChange={(event) => setUsernameDraft(event.currentTarget.value)}
+          rightSection={
+            <ActionIcon
+              variant="default"
+              disabled={!usernameDraft}
+              onClick={() => {
+                socket.emit("changeName", {
+                  roomID: URLParamUtils.get("room"),
+                  userID: localStorage.getItem("userID"),
+                  username: usernameDraft,
+                });
+                setUsernameDraft("");
+              }}
+            >
+              <Check size={20} />
+            </ActionIcon>
+          }
+          placeholder={username}
+          style={{ width: "100%" }}
+        />
+      </Group>
       <Group position="apart">
         <Title order={3}>Recent rooms</Title>
         <ActionIcon

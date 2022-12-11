@@ -22,6 +22,9 @@ export default function SyncemaShell() {
   const [userID, setUserID] = useState();
   const [connected, setConnected] = useState(false);
   const [queue, setQueue] = useState([]);
+  const [username, setUsername] = useState(
+    localStorage.getItem("username") ?? "Guest"
+  );
 
   useEffect(() => {
     socket.on("connect", () => {
@@ -49,6 +52,18 @@ export default function SyncemaShell() {
       window.location.replace(window.location.origin);
     });
 
+    socket.on("queueUpdate", (newQueue) => {
+      setQueue(newQueue);
+    });
+
+    socket.on("nameChanged", (newName) => {
+      setUsername(newName);
+      showNotification({
+        title: `Username successfully changed to: ${newName}`,
+        color: "green",
+      });
+    });
+
     socket.on("joinedRoom", ({ roomID, userID }) => {
       setRoomID(roomID);
       URLParamUtils.set("room", roomID);
@@ -74,13 +89,7 @@ export default function SyncemaShell() {
     socket.emit("joinRoom", {
       roomID: URLParamUtils.get("room"),
       userID: localStorage.getItem("userID"),
-      username: "Guest",
-    });
-  }, []);
-
-  useEffect(() => {
-    socket.on("queueUpdate", (newQueue) => {
-      setQueue(newQueue);
+      username: username,
     });
   }, []);
 
@@ -125,6 +134,8 @@ export default function SyncemaShell() {
             setListOpened={setListOpened}
             roomID={roomID}
             connected={connected}
+            username={username}
+            socket={socket}
           />
         </Header>
       }

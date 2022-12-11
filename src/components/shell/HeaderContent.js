@@ -19,6 +19,8 @@ export default function HeaderContent({
   setListOpened,
   roomID,
   connected,
+  username,
+  socket,
 }) {
   const [roomInfoOpened, setRoomInfoOpened] = useState(false);
 
@@ -84,7 +86,7 @@ export default function HeaderContent({
         size="xl"
         position="right"
       >
-        <RoomSidebar />
+        <RoomSidebar username={username} socket={socket} />
       </Drawer>
     </>
   );
