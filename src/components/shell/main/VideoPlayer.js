@@ -31,6 +31,7 @@ export default function VideoPlayer({ socket, userID, videoURL, listOpened }) {
           ref={playerRef}
           url={videoURL}
           playing={videoPlaying}
+          controls={true}
           muted={true}
           onPlay={() => {
             playerEventEmitter("playVideo");
