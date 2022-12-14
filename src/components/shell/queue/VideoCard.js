@@ -30,6 +30,12 @@ export default function VideoCard({
               backgroundColor: theme.colors.dark[5],
             },
           })}
+          onClick={() => {
+            socket.emit("makeFirst", {
+              userID: userID,
+              videoIndex: videoIndex,
+            });
+          }}
         >
           <Grid grow>
             <Grid.Col span={3}>
