@@ -6,25 +6,26 @@ import {
   Footer,
   useMantineTheme,
 } from "@mantine/core";
-import { io } from "socket.io-client";
+
 import MainContent from "./shell/MainContent.js";
 import HeaderContent from "./shell/HeaderContent.js";
 import * as URLParamUtils from "../utils/URLParamUtils.js";
 import QueueContent from "./shell/QueueContent.js";
 import { showNotification } from "@mantine/notifications";
 
-const socket = io("http://localhost:3031");
-
-export default function SyncemaShell() {
+export default function SyncemaShell({
+  socket,
+  username,
+  setUsername,
+  roomID,
+  setRoomID,
+}) {
   const theme = useMantineTheme();
   const [listOpened, setListOpened] = useState(false);
-  const [roomID, setRoomID] = useState();
+
   const [userID, setUserID] = useState();
   const [connected, setConnected] = useState(false);
   const [queue, setQueue] = useState([]);
-  const [username, setUsername] = useState(
-    localStorage.getItem("username") ?? "Guest"
-  );
 
   useEffect(() => {
     socket.on("connect", () => {
@@ -57,6 +58,7 @@ export default function SyncemaShell() {
     });
 
     socket.on("nameChanged", (newName) => {
+      localStorage.setItem("username", newName);
       setUsername(newName);
       showNotification({
         title: `Username successfully changed to: ${newName}`,
@@ -84,12 +86,6 @@ export default function SyncemaShell() {
         }
         localStorage.setItem("recentRooms", JSON.stringify(recentRooms));
       }
-    });
-
-    socket.emit("joinRoom", {
-      roomID: URLParamUtils.get("room"),
-      userID: localStorage.getItem("userID"),
-      username: username,
     });
   }, []);
 
