@@ -35,6 +35,8 @@ export default function App() {
   useEffect(() => {
     const URLRoomID = URLParamUtils.get("room");
     if (URLRoomID) joinRoom(URLRoomID);
+    socket.io.on("reconnect", () => joinRoom(URLParamUtils.get("room")));
+    socket.on("roomError", () => joinRoom(URLParamUtils.get("room")));
   }, []);
 
   return (
