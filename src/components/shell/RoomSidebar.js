@@ -46,7 +46,6 @@ export default function RoomSidebar({ username, socket }) {
               disabled={!usernameDraft}
               onClick={() => {
                 socket.emit("changeName", {
-                  roomID: URLParamUtils.get("room"),
                   userID: localStorage.getItem("userID"),
                   username: usernameDraft,
                 });
