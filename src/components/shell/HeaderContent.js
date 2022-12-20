@@ -47,9 +47,9 @@ export default function HeaderContent({
         </Group>
 
         <Group>
-          <MediaQuery smallerThan="sm" styles={{ display: "none" }}>
-            <CopyButton value={window.location.href} timeout={3000}>
-              {({ copied, copy }) => (
+          <CopyButton value={window.location.href} timeout={3000}>
+            {({ copied, copy }) => (
+              <MediaQuery smallerThan="xs" styles={{ display: "none" }}>
                 <Button
                   color={copied ? "green" : "gray"}
                   variant={copied ? "light" : "default"}
@@ -65,9 +65,9 @@ export default function HeaderContent({
                     }}
                   />
                 </Button>
-              )}
-            </CopyButton>
-          </MediaQuery>
+              </MediaQuery>
+            )}
+          </CopyButton>
           <ActionIcon
             variant="default"
             size="lg"

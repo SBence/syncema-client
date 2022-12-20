@@ -1,4 +1,4 @@
-import { Badge } from "@mantine/core";
+import { Badge, MediaQuery } from "@mantine/core";
 
 const colorMap = {
   "-1": "red",
@@ -21,8 +21,10 @@ export default function ConnectionBadge({ roomID, connected }) {
   }
 
   return (
-    <Badge color={colorMap[connectionState]} variant="dot">
-      {textMap[connectionState]}
-    </Badge>
+    <MediaQuery smallerThan="xs" styles={{ display: "none" }}>
+      <Badge color={colorMap[connectionState]} variant="dot">
+        {textMap[connectionState]}
+      </Badge>
+    </MediaQuery>
   );
 }
