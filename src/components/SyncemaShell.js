@@ -1,11 +1,5 @@
 import { useEffect, useState } from "react";
-import {
-  AppShell,
-  Navbar,
-  Header,
-  Footer,
-  useMantineTheme,
-} from "@mantine/core";
+import { AppShell, Navbar, Header, useMantineTheme } from "@mantine/core";
 
 import MainContent from "./shell/MainContent.js";
 import HeaderContent from "./shell/HeaderContent.js";
@@ -118,11 +112,11 @@ export default function SyncemaShell({
           />
         </Navbar>
       }
-      footer={
+      /* footer={
         <Footer height={60} p="md">
           Application footer
         </Footer>
-      }
+      } */
       header={
         <Header height={70} p="md">
           <HeaderContent
