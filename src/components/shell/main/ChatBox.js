@@ -19,7 +19,7 @@ export default function ChatBox({ socket, userID, roomID, connected }) {
   }
 
   return (
-    <Stack>
+    <Stack sx={{ width: "100%" }}>
       {roomID && connected ? (
         <Title order={3}>Chat</Title>
       ) : (
