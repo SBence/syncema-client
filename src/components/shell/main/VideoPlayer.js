@@ -1,6 +1,15 @@
-import { Box, Center, Overlay, Slider, Title } from "@mantine/core";
+import {
+  AspectRatio,
+  Box,
+  Center,
+  Overlay,
+  Slider,
+  Space,
+  Title,
+} from "@mantine/core";
 import { useEffect, useRef, useState } from "react";
 import ReactPlayer from "react-player/youtube";
+import secondsToString from "../../../utils/secondsToString.js";
 
 export default function VideoPlayer({ socket, userID, videoURL, listOpened }) {
   const playerRef = useRef();
@@ -27,37 +36,45 @@ export default function VideoPlayer({ socket, userID, videoURL, listOpened }) {
             </Center>
           </Overlay>
         )}
-        <ReactPlayer
-          ref={playerRef}
-          url={videoURL}
-          playing={videoPlaying}
-          controls={true}
-          muted={true}
-          onPlay={() => {
-            playerEventEmitter("playVideo");
-          }}
-          onPause={() => playerEventEmitter("pauseVideo")}
-          /* onSeek={() =>
-            playerEventEmitter("seekTo", {
-              time: playerRef.current.getCurrentTime(),
-            })
-          } */
-          onProgress={({ playedSeconds }) => setProgressBar(playedSeconds)}
-        />
-        {playerRef?.current && (
-          <Slider
-            min={0}
-            max={playerRef.current.getDuration()}
-            styles={{ markLabel: { display: "none" } }}
-            value={progressBar}
-            onChange={setProgressBar}
-            onChangeEnd={(value) => {
-              playerRef.current.seekTo(value);
-              playerEventEmitter("seekTo", {
-                time: value,
-              });
+        <AspectRatio ratio={16 / 9} sx={{ maxHeight: "100%" }} mx="auto">
+          <ReactPlayer
+            width="100%"
+            height="100%"
+            ref={playerRef}
+            url={videoURL}
+            playing={videoPlaying}
+            controls={true}
+            muted={true}
+            onPlay={() => {
+              playerEventEmitter("playVideo");
             }}
+            onPause={() => playerEventEmitter("pauseVideo")}
+            /* onSeek={() =>
+              playerEventEmitter("seekTo", {
+                time: playerRef.current.getCurrentTime(),
+              })
+            } */
+            onProgress={({ playedSeconds }) => setProgressBar(playedSeconds)}
           />
+        </AspectRatio>
+        {playerRef?.current && (
+          <>
+            <Space h="xs" />
+            <Slider
+              min={0}
+              max={playerRef.current.getDuration()}
+              styles={{ markLabel: { display: "none" } }}
+              value={progressBar}
+              label={(value) => secondsToString(value)}
+              onChange={setProgressBar}
+              onChangeEnd={(value) => {
+                playerRef.current.seekTo(value);
+                playerEventEmitter("seekTo", {
+                  time: value,
+                });
+              }}
+            />
+          </>
         )}
       </Box>
     </>
