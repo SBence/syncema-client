@@ -39,7 +39,7 @@ export default function SyncemaShell({
     socket.on("memberLeft", () => {
       showNotification({
         color: "red",
-        message: `Member left`, // TODO: Show username
+        message: `Member left`,
       });
     });
 
@@ -112,11 +112,6 @@ export default function SyncemaShell({
           />
         </Navbar>
       }
-      /* footer={
-        <Footer height={60} p="md">
-          Application footer
-        </Footer>
-      } */
       header={
         <Header height={70} p="md">
           <HeaderContent

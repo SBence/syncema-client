@@ -13,7 +13,7 @@ import secondsToString from "../../../utils/secondsToString.js";
 
 export default function VideoPlayer({ socket, userID, videoURL, listOpened }) {
   const playerRef = useRef();
-  const [videoPlaying, setVideoPlaying] = useState(false); // TODO: Get current playing state from server.
+  const [videoPlaying, setVideoPlaying] = useState(false);
   const [progressBar, setProgressBar] = useState(0);
 
   useEffect(() => {
@@ -49,11 +49,6 @@ export default function VideoPlayer({ socket, userID, videoURL, listOpened }) {
               playerEventEmitter("playVideo");
             }}
             onPause={() => playerEventEmitter("pauseVideo")}
-            /* onSeek={() =>
-              playerEventEmitter("seekTo", {
-                time: playerRef.current.getCurrentTime(),
-              })
-            } */
             onProgress={({ playedSeconds }) => setProgressBar(playedSeconds)}
           />
         </AspectRatio>
