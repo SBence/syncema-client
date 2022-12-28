@@ -51,6 +51,13 @@ export default function SyncemaShell({
       setQueue(newQueue);
     });
 
+    socket.on("videoAddError", () => {
+      showNotification({
+        color: "red",
+        message: `Invalid URL supplied as video URL`,
+      });
+    });
+
     socket.on("nameChanged", (newName) => {
       localStorage.setItem("username", newName);
       setUsername(newName);
