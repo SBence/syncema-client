@@ -44,7 +44,7 @@ export default function ChatBox({ socket, userID, roomID, connected }) {
         rightSection={
           <ActionIcon
             variant="default"
-            disabled={!(roomID && connected)}
+            disabled={!(roomID && connected && draft)}
             onClick={() => {
               socket.emit("sendMessage", { userID: userID, content: draft });
               setDraft("");

@@ -51,7 +51,7 @@ export default function QueueContent({
         rightSection={
           <ActionIcon
             variant="default"
-            disabled={!(roomID && connected)}
+            disabled={!(roomID && connected && draft)}
             onClick={() => {
               socket.emit("enqueueVideo", { userID: userID, videoURL: draft });
               setDraft("");
